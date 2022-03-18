@@ -1,4 +1,6 @@
 const counter = document.getElementById('counter');
+const counterContainer = document.getElementById('counter-container');
+const [image] = document.getElementsByTagName("img");
 
 let now = new Date();
 const dateTravel = new Date(2022, 2, 18, 18, 0, 0, 0);
@@ -9,7 +11,8 @@ const oneMinuteMillisecond = 60000;
 const oneSecondMillisecond = 1000;
 
 const func = () => {
-  let timeDiffMilliseconds = Math.abs(now - dateTravel);
+  const isAfterTravel = now > dateTravel;
+  let timeDiffMilliseconds = isAfterTravel ? 0:now - dateTravel;
   
   const days = Math.floor(timeDiffMilliseconds / oneDayMillisecond);
   timeDiffMilliseconds -= (days * oneDayMillisecond);
@@ -28,7 +31,12 @@ const func = () => {
   counter.innerText = `${days} DIAS | ${hours} : ${minutes} : ${seconds} : ${milliseconds}`;
   
   now.setMilliseconds(now.getMilliseconds() + 1);
-  setTimeout(func,1);
-}
+
+  if(isAfterTravel) {
+    counterContainer.style.backgroundColor = "green";
+    image.src = "tina.jpeg";
+    image.alt = "Tina de cabeça pra baixo";
+  } else setTimeout(func,1);
+};
 
 func();
